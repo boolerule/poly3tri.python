@@ -32,27 +32,27 @@
 #ifndef ADVANCED_FRONT_H
 #define ADVANCED_FRONT_H
 
-#include "../common/shapes.h"
+#include "../common/shapes3.h"
 
-namespace p2t {
+namespace p3t {
 
 struct Node;
 
 // Advancing front node
 struct Node {
-  Point* point;
-  Triangle* triangle;
+  Point3* point;
+  Triangle3* triangle;
 
   Node* next;
   Node* prev;
 
   double value;
 
-  Node(Point& p) : point(&p), triangle(NULL), next(NULL), prev(NULL), value(p.x)
+  Node(Point3& p) : point(&p), triangle(NULL), next(NULL), prev(NULL), value(p.x)
   {
   }
 
-  Node(Point& p, Triangle& t) : point(&p), triangle(&t),
+  Node(Point3& p, Triangle3& t) : point(&p), triangle(&t),
     next(NULL), prev(NULL), value(p.x)
   {
   }
@@ -77,7 +77,7 @@ void set_search(Node* node);
 /// Locate insertion point along advancing front
 Node* LocateNode(const double& x);
 
-Node* LocatePoint(const Point* point);
+Node* LocatePoint(const Point3* point);
 
 private:
 

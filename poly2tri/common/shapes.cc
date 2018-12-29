@@ -31,7 +31,7 @@
 #include "shapes.h"
 #include <iostream>
 
-namespace p2t {
+namespace p3t {
 
 Triangle::Triangle(Point& a, Point& b, Point& c)
 {

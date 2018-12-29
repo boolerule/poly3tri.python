@@ -35,7 +35,7 @@
 #include <exception>
 #include <math.h>
 
-namespace p2t {
+namespace p3t {
 
 const double PI_3div4 = 3 * M_PI / 4;
 const double EPSILON = 1e-12;
@@ -52,7 +52,7 @@ enum Orientation { CW, CCW, COLLINEAR };
  *              =  (x1-x3)*(y2-y3) - (y1-y3)*(x2-x3)
  * </pre>
  */
-Orientation Orient2d(Point& pa, Point& pb, Point& pc)
+Orientation Orient2d(Point3& pa, Point3& pb, Point3& pc)
 {
   double detleft = (pa.x - pc.x) * (pb.y - pc.y);
   double detright = (pa.y - pc.y) * (pb.x - pc.x);
@@ -65,7 +65,7 @@ Orientation Orient2d(Point& pa, Point& pb, Point& pc)
   return CW;
 }
 
-bool InScanArea(Point& pa, Point& pb, Point& pc, Point& pd)
+bool InScanArea(Point3& pa, Point3& pb, Point3& pc, Point3& pd)
 {
   double pdx = pd.x;
   double pdy = pd.y;

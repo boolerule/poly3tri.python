@@ -36,65 +36,65 @@
 #include <list>
 #include <vector>
 
-namespace p2t {
+namespace p3t {
 
   // Inital triangle factor, seed triangle will extend 30% of
   // PointSet width to both left and right.
   const double kAlpha = 0.3;
 
-  struct Point;
-  class Triangle;
+  struct Point3;
+  class Triangle3;
   struct Node;
-  struct Edge;
+  struct Edge3;
   class AdvancingFront;
 
   class SweepContext {
     public:
 
       /// Constructor
-      SweepContext(std::vector<Point*> polyline);
+      SweepContext(std::vector<Point3*> polyline);
       /// Destructor
       ~SweepContext();
 
-      void set_head(Point* p1);
+      void set_head(Point3* p1);
 
-      Point* head();
+      Point3* head();
 
-      void set_tail(Point* p1);
+      void set_tail(Point3* p1);
 
-      Point* tail();
+      Point3* tail();
 
       int point_count();
 
-      Node& LocateNode(Point& point);
+      Node& LocateNode(Point3& point);
 
       void RemoveNode(Node* node);
 
       void CreateAdvancingFront(std::vector<Node*> nodes);
 
       /// Try to map a node to all sides of this triangle that don't have a neighbor
-      void MapTriangleToNodes(Triangle& t);
+      void MapTriangleToNodes(Triangle3& t);
 
-      void AddToMap(Triangle* triangle);
+      void AddToMap(Triangle3* triangle);
 
-      Point* GetPoint(const int& index);
+      Point3* GetPoint(const int& index);
 
-      Point* GetPoints();
+      Point3* GetPoints();
 
-      void RemoveFromMap(Triangle* triangle);
+      void RemoveFromMap(Triangle3* triangle);
 
-      void AddHole(std::vector<Point*> polyline);
+      void AddHole(std::vector<Point3*> polyline);
 
-      void AddPoint(Point* point);
+      void AddPoint(Point3* point);
 
       AdvancingFront* front();
 
-      void MeshClean(Triangle& triangle);
+      void MeshClean(Triangle3& triangle);
 
-      std::vector<Triangle*> GetTriangles();
-      std::list<Triangle*> GetMap();
+      std::vector<Triangle3*> GetTriangles();
+      std::list<Triangle3*> GetMap();
 
-      std::vector<Edge*> edge_list;
+      std::vector<Edge3*> edge_list;
 
       struct Basin {
         Node* left_node;
@@ -118,7 +118,7 @@ namespace p2t {
       };
 
       struct EdgeEvent {
-        Edge* constrained_edge;
+        Edge3* constrained_edge;
         bool right;
 
         EdgeEvent() : constrained_edge(NULL), right(false)
@@ -133,21 +133,21 @@ namespace p2t {
 
       friend class Sweep;
 
-      std::vector<Triangle*> triangles_;
-      std::list<Triangle*> map_;
-      std::vector<Point*> points_;
+      std::vector<Triangle3*> triangles_;
+      std::list<Triangle3*> map_;
+      std::vector<Point3*> points_;
 
       // Advancing front
       AdvancingFront* front_;
       // head point used with advancing front
-      Point* head_;
+      Point3* head_;
       // tail point used with advancing front
-      Point* tail_;
+      Point3* tail_;
 
       Node *af_head_, *af_middle_, *af_tail_;
 
       void InitTriangulation();
-      void InitEdges(std::vector<Point*> polyline);
+      void InitEdges(std::vector<Point3*> polyline);
 
   };
 
@@ -161,22 +161,22 @@ namespace p2t {
     return points_.size();
   }
 
-  inline void SweepContext::set_head(Point* p1)
+  inline void SweepContext::set_head(Point3* p1)
   {
     head_ = p1;
   }
 
-  inline Point* SweepContext::head()
+  inline Point3* SweepContext::head()
   {
     return head_;
   }
 
-  inline void SweepContext::set_tail(Point* p1)
+  inline void SweepContext::set_tail(Point3* p1)
   {
     tail_ = p1;
   }
 
-  inline Point* SweepContext::tail()
+  inline Point3* SweepContext::tail()
   {
     return tail_;
   }

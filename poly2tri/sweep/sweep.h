@@ -33,7 +33,7 @@
  * Zalik, B.(2008)'Sweep-line algorithm for constrained Delaunay triangulation',
  * International Journal of Geographical Information Science
  *
- * "FlipScan" Constrained Edge Algorithm invented by Thomas Åhlén, thahlen@gmail.com
+ * "FlipScan" Constrained Edge3 Algorithm invented by Thomas ï¿½hlï¿½n, thahlen@gmail.com
  */
 
 #ifndef SWEEP_H
@@ -41,13 +41,13 @@
 
 #include <vector>
 
-namespace p2t {
+namespace p3t {
 
 class SweepContext;
 struct Node;
-struct Point;
-struct Edge;
-class Triangle;
+struct Point3;
+struct Edge3;
+class Triangle3;
 
 class Sweep {
 public:
@@ -59,21 +59,21 @@ private:
 
 void SweepPoints(SweepContext& tcx);
 
-Node& PointEvent(SweepContext& tcx, Point& point);
+Node& PointEvent(SweepContext& tcx, Point3& point);
 
-void EdgeEvent(SweepContext& tcx, Edge* edge, Node* node);
+void EdgeEvent(SweepContext& tcx, Edge3* edge, Node* node);
 
-void EdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle* triangle, Point& point);
+void EdgeEvent(SweepContext& tcx, Point3& ep, Point3& eq, Triangle3* triangle, Point3& point);
 
-Node& NewFrontTriangle(SweepContext& tcx, Point& point, Node& node);
+Node& NewFrontTriangle(SweepContext& tcx, Point3& point, Node& node);
 
 void Fill(SweepContext& tcx, Node& node);
 
-bool Legalize(SweepContext& tcx, Triangle& t);
+bool Legalize(SweepContext& tcx, Triangle3& t);
 
-bool Incircle(Point& pa, Point& pb, Point& pc, Point& pd);
+bool Incircle(Point3& pa, Point3& pb, Point3& pc, Point3& pd);
 
-void RotateTrianglePair(Triangle& t, Point& p, Triangle& ot, Point& op);
+void RotateTrianglePair(Triangle3& t, Point3& p, Triangle3& ot, Point3& op);
 
 void FillAdvancingFront(SweepContext& tcx, Node& n);
 
@@ -87,33 +87,33 @@ void FillBasinReq(SweepContext& tcx, Node* node);
 
 bool IsShallow(SweepContext& tcx, Node& node);
 
-bool IsEdgeSideOfTriangle(Triangle& triangle, Point& ep, Point& eq);
+bool IsEdgeSideOfTriangle(Triangle3& triangle, Point3& ep, Point3& eq);
 
-void FillEdgeEvent(SweepContext& tcx, Edge* edge, Node* node);
+void FillEdgeEvent(SweepContext& tcx, Edge3* edge, Node* node);
 
-void FillRightAboveEdgeEvent(SweepContext& tcx, Edge* edge, Node* node);
+void FillRightAboveEdgeEvent(SweepContext& tcx, Edge3* edge, Node* node);
 
-void FillRightBelowEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillRightBelowEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FillRightConcaveEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillRightConcaveEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FillRightConvexEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillRightConvexEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FillLeftAboveEdgeEvent(SweepContext& tcx, Edge* edge, Node* node);
+void FillLeftAboveEdgeEvent(SweepContext& tcx, Edge3* edge, Node* node);
 
-void FillLeftBelowEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillLeftBelowEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FillLeftConcaveEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillLeftConcaveEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FillLeftConvexEdgeEvent(SweepContext& tcx, Edge* edge, Node& node);
+void FillLeftConvexEdgeEvent(SweepContext& tcx, Edge3* edge, Node& node);
 
-void FlipEdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle* t, Point& p);
+void FlipEdgeEvent(SweepContext& tcx, Point3& ep, Point3& eq, Triangle3* t, Point3& p);
 
-Triangle& NextFlipTriangle(SweepContext& tcx, int o, Triangle&  t, Triangle& ot, Point& p, Point& op);
+Triangle3& NextFlipTriangle(SweepContext& tcx, int o, Triangle3&  t, Triangle3& ot, Point3& p, Point3& op);
 
-Point& NextFlipPoint(Point& ep, Point& eq, Triangle& ot, Point& op);
+Point3& NextFlipPoint(Point3& ep, Point3& eq, Triangle3& ot, Point3& op);
 
-void FlipScanEdgeEvent(SweepContext& tcx, Point& ep, Point& eq, Triangle& flip_triangle, Triangle& t, Point& p);
+void FlipScanEdgeEvent(SweepContext& tcx, Point3& ep, Point3& eq, Triangle3& flip_triangle, Triangle3& t, Point3& p);
 
 void FinalizationPolygon(SweepContext& tcx);
 

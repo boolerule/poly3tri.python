@@ -11,7 +11,7 @@ def read(fname):
 
 from Cython.Distutils import build_ext as build_ext_c
 
-CYTHON_SOURCES =  """src/p2t.pyx""".split("\n")
+CYTHON_SOURCES =  """src/p3t.pyx""".split("\n")
 
 CPP_SOURCES = """poly2tri/common/shapes.cc
 poly2tri/sweep/advancing_front.cc
@@ -20,17 +20,17 @@ poly2tri/sweep/sweep.cc
 poly2tri/sweep/sweep_context.cc""".split("\n")
 
 ext = Extension(
-    'p2t',
+    'p3t',
     sources= CYTHON_SOURCES + CPP_SOURCES,
     language='c++'
 )
 extensions = Cython.Build.cythonize(ext)
 
 setup(
-    name = "poly2tri",
-    version = "0.3.3+dcpatch",
-    author = "Mason Green",
-    description = "A 2D constrained Delaunay triangulation library",
+    name = "poly3tri",
+    version = "0.0.1",
+    author = "twosilly",
+    description = "A 2D 3D constrained Delaunay triangulation library",
     long_description = read('README'),
     url = "http://code.google.com/p/poly2tri/",
 

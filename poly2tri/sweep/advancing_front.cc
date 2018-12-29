@@ -30,7 +30,7 @@
  */
 #include "advancing_front.h"
 
-namespace p2t {
+namespace p3t {
 
 AdvancingFront::AdvancingFront(Node& head, Node& tail)
 {
@@ -67,7 +67,7 @@ Node* AdvancingFront::FindSearchNode(const double& x)
   return search_node_;
 }
 
-Node* AdvancingFront::LocatePoint(const Point* point)
+Node* AdvancingFront::LocatePoint(const Point3* point)
 {
   const double px = point->x;
   Node* node = FindSearchNode(px);

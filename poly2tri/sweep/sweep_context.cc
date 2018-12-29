@@ -34,9 +34,9 @@
 
 #define nullptr 0L
 
-namespace p2t {
+namespace p3t {
 
-SweepContext::SweepContext(std::vector<Point*> polyline) : 
+SweepContext::SweepContext(std::vector<Point3*> polyline) :
 	front_(nullptr), head_(nullptr), tail_(nullptr), af_head_(nullptr), af_middle_(nullptr), af_tail_(nullptr)
 {
   basin = Basin();
@@ -47,7 +47,7 @@ SweepContext::SweepContext(std::vector<Point*> polyline) :
   InitEdges(points_);
 }
 
-void SweepContext::AddHole(std::vector<Point*> polyline)
+void SweepContext::AddHole(std::vector<Point3*> polyline)
 {
   InitEdges(polyline);
   for(unsigned int i = 0; i < polyline.size(); i++) {
@@ -55,16 +55,16 @@ void SweepContext::AddHole(std::vector<Point*> polyline)
   }
 }
 
-void SweepContext::AddPoint(Point* point) {
+void SweepContext::AddPoint(Point3* point) {
   points_.push_back(point);
 }
 
-std::vector<Triangle*> SweepContext::GetTriangles()
+std::vector<Triangle3*> SweepContext::GetTriangles()
 {
   return triangles_;
 }
 
-std::list<Triangle*> SweepContext::GetMap()
+std::list<Triangle3*> SweepContext::GetMap()
 {
   return map_;
 }
@@ -73,10 +73,11 @@ void SweepContext::InitTriangulation()
 {
   double xmax(points_[0]->x), xmin(points_[0]->x);
   double ymax(points_[0]->y), ymin(points_[0]->y);
+  double zmax(points_[0]->z), zmin(points_[0]->z);
 
   // Calculate bounds.
   for (unsigned int i = 0; i < points_.size(); i++) {
-    Point& p = *points_[i];
+    Point3& p = *points_[i];
     if (p.x > xmax)
       xmax = p.x;
     if (p.x < xmin)
@@ -85,38 +86,43 @@ void SweepContext::InitTriangulation()
       ymax = p.y;
     if (p.y < ymin)
       ymin = p.y;
+    if (p.z > zmax)
+      zmax = p.y;
+    if (p.z < zmin)
+      zmin = p.y;
   }
 
   double dx = kAlpha * (xmax - xmin);
   double dy = kAlpha * (ymax - ymin);
-  head_ = new Point(xmax + dx, ymin - dy);
-  tail_ = new Point(xmin - dx, ymin - dy);
+  double zy = kAlpha * (zmax - zmin);
+  head_ = new Point3(xmax + dx, ymin - dy, zmin - zy);
+  tail_ = new Point3(xmin - dx, ymin - dy, zmin - zy);
 
   // Sort points along y-axis
   std::sort(points_.begin(), points_.end(), cmp);
 
 }
 
-void SweepContext::InitEdges(std::vector<Point*> polyline)
+void SweepContext::InitEdges(std::vector<Point3*> polyline)
 {
   unsigned int num_points = polyline.size();
   for (unsigned int i = 0; i < num_points; i++) {
     int j = i < num_points - 1 ? i + 1 : 0;
-    edge_list.push_back(new Edge(*polyline[i], *polyline[j]));
+    edge_list.push_back(new Edge3(*polyline[i], *polyline[j]));
   }
 }
 
-Point* SweepContext::GetPoint(const int& index)
+Point3* SweepContext::GetPoint(const int& index)
 {
   return points_[index];
 }
 
-void SweepContext::AddToMap(Triangle* triangle)
+void SweepContext::AddToMap(Triangle3* triangle)
 {
   map_.push_back(triangle);
 }
 
-Node& SweepContext::LocateNode(Point& point)
+Node& SweepContext::LocateNode(Point3& point)
 {
   // TODO implement search tree
   return *front_->LocateNode(point.x);
@@ -126,7 +132,7 @@ void SweepContext::CreateAdvancingFront(std::vector<Node*> nodes)
 {
 
   // Initial triangle
-  Triangle* triangle = new Triangle(*points_[0], *tail_, *head_);
+  Triangle3* triangle = new Triangle3(*points_[0], *tail_, *head_);
 
   map_.push_back(triangle);
 
@@ -148,7 +154,7 @@ void SweepContext::RemoveNode(Node* node)
   delete node;
 }
 
-void SweepContext::MapTriangleToNodes(Triangle& t)
+void SweepContext::MapTriangleToNodes(Triangle3& t)
 {
   for (int i = 0; i < 3; i++) {
     if (!t.GetNeighbor(i)) {
@@ -159,12 +165,12 @@ void SweepContext::MapTriangleToNodes(Triangle& t)
   }
 }
 
-void SweepContext::RemoveFromMap(Triangle* triangle)
+void SweepContext::RemoveFromMap(Triangle3* triangle)
 {
   map_.remove(triangle);
 }
 
-void SweepContext::MeshClean(Triangle& triangle)
+void SweepContext::MeshClean(Triangle3& triangle)
 {
   if (&triangle != NULL && !triangle.IsInterior()) {
     triangle.IsInterior(true);
@@ -188,10 +194,10 @@ SweepContext::~SweepContext()
     delete af_middle_;
     delete af_tail_;
 
-    typedef std::list<Triangle*> type_list;
+    typedef std::list<Triangle3*> type_list;
 
     for(type_list::iterator iter = map_.begin(); iter != map_.end(); ++iter) {
-        Triangle* ptr = *iter;
+        Triangle3* ptr = *iter;
         delete ptr;
     }
 

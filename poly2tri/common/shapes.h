@@ -39,7 +39,7 @@
 #include <cmath>
 #include <exception>
 
-namespace p2t {
+namespace p3t {
 
 struct Node;
 struct Edge;
@@ -120,13 +120,97 @@ struct Point {
   }
 
 };
+struct Point3 {
 
+  double x, y, z;
+
+  /// 默认构造函数不做任何事情(为了性能)。
+  Point3()
+  {
+    x = 0.0;
+    y = 0.0;
+    z = 0.0;
+  }
+
+  /// 这一点构成了一个上端点
+  std::vector<Edge3*> edge_list;
+
+  /// 使用坐标构造。
+  Point3(double x, double y, double z) : x(x), y(y), z(z) {}
+
+  /// 将这个点设置为所有的0
+  void set_zero()
+  {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+  }
+
+  /// 将这个点设置为某个指定的坐标。
+  void set(double x_, double y_, double z_)
+  {
+    x = x_;
+    y = y_;
+    z = z_;
+  }
+
+  /// 否定这一点。
+  Point3 operator -() const
+  {
+    Point3 v;
+    v.set(-x, -y, -z);
+    return v;
+  }
+
+  /// 在这一点上加一点。
+  void operator +=(const Point3& v)
+  {
+    x += v.x;
+    y += v.y;
+    z += v.z;
+  }
+
+  /// 这个点减去1。
+  void operator -=(const Point3& v)
+  {
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
+  }
+
+  /// 用标量乘以这个点
+  void operator *=(double a)
+  {
+    x *= a;
+    y *= a;
+    z *= a;
+  }
+
+  /// 得到这个点的长度(范数)。
+  double Length() const
+  {
+    return sqrt(x * x + y * y + z * z);
+  }
+
+  /// 把这个点转换成一个单位点。返回长度
+  double Normalize()
+  {
+    double len = Length();
+    x /= len;
+    y /= len;
+    z /= len;
+    return len;
+  }
+
+};
+//重复点异常
 class RepeatedPointException : public std::exception {
 	virtual const char * what() const throw() {
 		return "Repeated Point";
 	}
 };
 // Represents a simple polygon's edge
+//表示一个简单多边形的边缘
 struct Edge {
 
   Point* p, *q;
@@ -152,6 +236,31 @@ struct Edge {
   }
 };
 
+//TODO:虽然标了一个3但是其实还是二维运行，只是会带着一个z的坐标值，因为我们的是等高线，所以需要这个
+struct Edge3 {
+
+  Point3* p, *q;
+
+  /// Constructor
+  Edge(Point3& p1, Point3& p2) : p(&p1), q(&p2)
+  {
+    if (p1.y > p2.y) {
+      q = &p1;
+      p = &p2;
+    } else if (p1.y == p2.y) {
+      if (p1.x > p2.x) {
+        q = &p1;
+        p = &p2;
+      } else if (p1.x == p2.x) {
+        // Repeat points
+	throw new RepeatedPointException();
+        assert(false);
+      }
+    }
+
+    q->edge_list.push_back(this);
+  }
+};
 // Triangle-based data structures are know to have better performance than quad-edge structures
 // See: J. Shewchuk, "Triangle: Engineering a 2D Quality Mesh Generator and Delaunay Triangulator"
 //      "Triangulations in CGAL"

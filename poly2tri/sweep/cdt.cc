@@ -30,20 +30,20 @@
  */
 #include "cdt.h"
 
-namespace p2t {
+namespace p3t {
 
-CDT::CDT(std::vector<Point*> polyline)
+CDT::CDT(std::vector<Point3*> polyline)
 {
   sweep_context_ = new SweepContext(polyline);
   sweep_ = new Sweep;
 }
 
-void CDT::AddHole(std::vector<Point*> polyline)
+void CDT::AddHole(std::vector<Point3*> polyline)
 {
   sweep_context_->AddHole(polyline);
 }
 
-void CDT::AddPoint(Point* point) {
+void CDT::AddPoint(Point3* point) {
   sweep_context_->AddPoint(point);
 }
 
@@ -52,12 +52,12 @@ void CDT::Triangulate()
   sweep_->Triangulate(*sweep_context_);
 }
 
-std::vector<p2t::Triangle*> CDT::GetTriangles()
+std::vector<p3t::Triangle3*> CDT::GetTriangles()
 {
   return sweep_context_->GetTriangles();
 }
 
-std::list<p2t::Triangle*> CDT::GetMap()
+std::list<p3t::Triangle3*> CDT::GetMap()
 {
   return sweep_context_->GetMap();
 }

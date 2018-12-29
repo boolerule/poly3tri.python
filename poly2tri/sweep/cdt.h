@@ -36,26 +36,26 @@
 #include "sweep_context.h"
 #include "sweep.h"
 
-namespace p2t {
+namespace p3t {
 
 class CDT
 {
 public:
 
 /// Constructor
-CDT(std::vector<Point*> polyline);
+CDT(std::vector<Point3*> polyline);
 /// Destructor
 ~CDT();
 /// Add a hole
-void AddHole(std::vector<Point*> polyline);
+void AddHole(std::vector<Point3*> polyline);
 /// Add a single point
-void AddPoint(Point* point);
+void AddPoint(Point3* point);
 /// Triangulate points
 void Triangulate();
 /// Get Delaunay triangles
-std::vector<Triangle*> GetTriangles();
+std::vector<Triangle3*> GetTriangles();
 /// Get triangle map
-std::list<Triangle*> GetMap();
+std::list<Triangle3*> GetMap();
 
 private:
 

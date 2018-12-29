@@ -1,0 +1,56 @@
+Metadata-Version: 1.0
+Name: poly3tri
+Version: 0.0.1
+Summary: A 2D 3D constrained Delaunay triangulation library
+Home-page: http://code.google.com/p/poly2tri/
+Author: twosilly
+Author-email: UNKNOWN
+License: UNKNOWN
+Description-Content-Type: UNKNOWN
+Description: This is the existing poly2tri.python library, updated such that 
+        it seems to build with python3.4. Any other correctness, or compatiblity
+        has not been evaluated.
+        
+        ==================
+        INSTALLATION GUIDE
+        ==================
+        
+        ------------
+        Dependencies
+        ------------
+        
+          Core poly2tri lib:
+          - Cython (0.14.1)
+          
+          Testbed:
+          - Pygame
+        
+          Building:
+          - setuptools
+        
+        ----------------------------------------------
+        Building the library
+        ----------------------------------------------
+        
+        On Windows, follow the instructions here to set up your environment:
+        http://rexdouglass.com/python-64-bit-on-windows-part-2-building-packages/
+        
+        Then to create a wheel package, run the following command:
+        python setup.py bdist_wheel
+        This will create a .whl package in dist/ directory which can then be redistributed.
+        
+        On Linux, you can do:
+        python setup.py build_ext -i
+        
+        ----------------------------------------------
+        Running the Examples
+        ----------------------------------------------
+        
+        python test.py <filename> <translate-x> <translate-y> <zoom>
+        
+        Examples:
+        
+          python test.py data/dude.dat 100 -200 1
+          python test.py data/nazca_monkey.dat 400 300 4.5
+        
+Platform: UNKNOWN
