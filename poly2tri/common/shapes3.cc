@@ -175,6 +175,7 @@ void Triangle3::MarkConstrainedEdge(Point3* p, Point3* q)
 }
 
 // The point counter-clockwise to given point
+//点逆时针到给定点
 Point3* Triangle3::PointCW(Point3& point)
 {
   if (&point == points_[0]) {
@@ -188,6 +189,7 @@ Point3* Triangle3::PointCW(Point3& point)
 }
 
 // The point counter-clockwise to given point
+//点逆时针到给定点
 Point3* Triangle3::PointCCW(Point3& point)
 {
   if (&point == points_[0]) {

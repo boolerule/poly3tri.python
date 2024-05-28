@@ -31,7 +31,7 @@
 #include "shapes.h"
 #include <iostream>
 
-namespace p3t {
+namespace p2t {
 
 Triangle::Triangle(Point& a, Point& b, Point& c)
 {
@@ -325,5 +325,6 @@ void Triangle::DebugPrint()
   cout << points_[2]->x << "," << points_[2]->y << endl;
 }
 
-}
 
+
+} // namespace p2t

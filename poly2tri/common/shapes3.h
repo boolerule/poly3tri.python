@@ -30,14 +30,15 @@
  */
 
 // Include guard
-#ifndef SHAPES_H
-#define SHAPES_H
+#ifndef SHAPES3_H
+#define SHAPES3_H
 
 #include <vector>
 #include <cstddef>
 #include <assert.h>
 #include <cmath>
 #include <exception>
+
 
 namespace p3t {
 
